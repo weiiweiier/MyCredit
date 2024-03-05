@@ -1,0 +1,2 @@
+mvn archetype:generate -DarchetypeArtifactId=jersey-quickstart-webapp -DarchetypeGroupId=org.glassfish.jersey.archetypes -DinteractiveMode=false -DgroupId=com.ntou -DartifactId=MyCredit -Dpackage=com.ntou -DarchetypeVersion=2.41
+

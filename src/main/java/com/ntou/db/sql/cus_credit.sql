@@ -1,0 +1,29 @@
+--客戶信用卡資訊
+CREATE TABLE cus_credit (
+     CID  			VARCHAR(20) ,--使用者身分證(外國護照預留欄位長度)
+     REGIDATE 		VARCHAR(23)	,--信用卡銀行通過(核發)時間yyyy/MM/dd HH:mm:ss.SSS 
+	 ISSUING_BANK 	VARCHAR(50) ,--核卡銀行(swiftCode)
+	 CARD_NUM		VARCHAR(20) ,--信用卡號碼
+	 STATUS			VARCHAR(2)  ,--信用卡狀態(00:正常,99:註銷)
+	 REMARK			VARCHAR(50)  --備註
+ )
+
+--Testing Data
+INSERT INTO cus_credit (CID,REGIDATE,ISSUING_BANK,CARD_NUM,STATUS,REMARK)
+VALUES (
+	'A123456789'
+	,'2024/02/01 01:17:00.000'
+	,'BKTWTWTP'
+	,'1234567891234567'
+	,'00'
+	,''
+)
+INSERT INTO cus_credit (CID,REGIDATE,ISSUING_BANK,CARD_NUM,STATUS,REMARK)
+VALUES (
+	'B223456789'
+	,'2024/02/05 05:18:00.000'
+	,'TSIBTWTP'
+	,'9876543219876543'
+	,'00'
+	,''
+)
