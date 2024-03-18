@@ -1,14 +1,12 @@
 package com.ntou.svc.query;
 
-import com.ntou.db.billrecord.BillrecordDAO;
-import com.ntou.db.billrecord.BillrecordVO;
+import com.ntou.db.cuscredit.CuscreditDAO;
+import com.ntou.db.cuscredit.CuscreditVO;
 import com.ntou.exceptions.TException;
 import com.ntou.svc.insert.InsertRC;
 import com.ntou.tool.Common;
 import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-
-import java.util.ArrayList;
 
 @Log4j2
 @NoArgsConstructor
@@ -25,35 +23,23 @@ public class Query {
                 throw new TException(res);
             }
 
-            BillrecordDAO dao = new BillrecordDAO();
-            ArrayList<BillrecordVO> cusDateBillList = dao.selectCusDateBill(req);
-
-            ArrayList<QueryRes.Data> resList = new ArrayList<>();
-            cusDateBillList.forEach(action->{
-                QueryRes.Data queryData = new QueryRes.Data();
-                queryData.setBuyChannel 	(action.getBUY_CHANNEL 	    ());
-                queryData.setBuyDate 	 	(action.getBUY_DATE 		());
-                queryData.setReqPaymentDate (action.getREQ_PAYMENT_DATE ());
-                queryData.setShopId		 	(action.getSHOP_ID			());
-                queryData.setCustomerId	 	(action.getCUSTOMER_ID		());
-                queryData.setBuyCurrency	(action.getBUY_CURRENCY	    ());
-                queryData.setBuyAmount	 	(action.getBUY_AMOUNT		());
-                queryData.setDisputedFlag 	(action.getDISPUTED_FLAG	());
-                queryData.setStatus		 	(action.getSTATUS			());
-                queryData.setActaullyDate 	(action.getACTUALLY_DATE	());
-                queryData.setRemark		 	(action.getREMARK			());
-                queryData.setIssuingBank	(action.getISSUING_BANK	    ());
-                queryData.setCardNnum	 	(action.getCARD_NUM		    ());
-                queryData.setSecurityCode 	(action.getSECURITY_CODE	());
-                resList.add(queryData);
-            });
-            res.setResBody (resList);
-
-            if(resList.isEmpty()) {
+            CuscreditVO cusDateBillList = new CuscreditDAO().selectKey(req.getCid(), req.getCardNum());
+            if(cusDateBillList==null) {
                 res.setResCode (QueryRC.cnsq97.getCode());
                 res.setResMsg  (QueryRC.cnsq97.getContent());
                 throw new TException(res);
             }
+
+            QueryRes.Data queryData = new QueryRes.Data();
+            queryData.setCID  			(cusDateBillList.getCID  		());
+            queryData.setREGIDATE 		(cusDateBillList.getREGIDATE 	());
+            queryData.setISSUING_BANK 	(cusDateBillList.getISSUING_BANK());
+            queryData.setCARD_NUM		(cusDateBillList.getCARD_NUM	());
+            queryData.setSTATUS			(cusDateBillList.getSTATUS		());
+            queryData.setREMARK			(cusDateBillList.getREMARK		());
+
+            res.setResBody (queryData);
+
             res.setResCode (QueryRC.cnsq00.getCode());
             res.setResMsg  (QueryRC.cnsq00.getContent());
 

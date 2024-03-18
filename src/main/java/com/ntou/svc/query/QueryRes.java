@@ -13,24 +13,16 @@ public class QueryRes {
     private String resMsg       ;
     private String resTime      = Utils.getDateTime();
 
-    private ArrayList<Data> resBody;
+    private Data resBody;
 
     @lombok.Data
     public static class Data {
-        private String buyChannel 		    ;//VARCHAR(2) ,--交易通路(01:虛擬/02:實體)
-        private String buyDate 			    ;//VARCHAR(23),--消費時間yyyy/MM/dd HH:mm:ss.SSS
-        private String reqPaymentDate	    ;//VARCHAR(23),--請款時間yyyy/MM/dd HH:mm:ss.SSS
-        private String shopId				;//VARCHAR(20),--消費店家(統編)
-        private String customerId			;//VARCHAR(10),--消費者(keyID)
-        private String buyCurrency		    ;//VARCHAR(10),--消費幣別
-        private String buyAmount			;//VARCHAR(10),--消費金額
-        private String disputedFlag		    ;//VARCHAR(10),--爭議款項註記(00:正常,01異常)
-        private String status				;//VARCHAR(2) ,--狀態(00:正常,99:註銷)
-        private String actaullyDate		    ;//VARCHAR(23),--此紀錄最終完成的時間yyyy/MM/dd HH:mm:ss.SSS
-        private String remark				;//VARCHAR(50),--備註
-        private String issuingBank		    ;//VARCHAR(50),--發卡銀行(swiftCode)
-        private String cardNnum			    ;//VARCHAR(20),--卡號
-        private String securityCode		    ;//VARCHAR(10) --安全碼
+        private String CID  			= "";//VARCHAR(20) ,--使用者身分證(外國護照預留欄位長度)
+        private String REGIDATE 		= "";//VARCHAR(23)	,--信用卡銀行通過(核發)時間yyyy/MM/dd HH:mm:ss.SSS
+        private String ISSUING_BANK 	= "";//VARCHAR(50) ,--核卡銀行(swiftCode)
+        private String CARD_NUM			= "";//VARCHAR(20) ,--信用卡號碼
+        private String STATUS			= "";//VARCHAR(2)  ,--信用卡狀態(00:正常,99:註銷)
+        private String REMARK			= "";//VARCHAR(50)  --備註
     }
 
     @Override

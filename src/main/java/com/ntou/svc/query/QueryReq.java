@@ -8,8 +8,7 @@ import lombok.Data;
 @Data
 public class QueryReq {
     private String cid;
-    private String startDate;
-    private String endDate;
+    private String cardNum;
 
     @JsonIgnore
     private String errMsg;
@@ -18,12 +17,8 @@ public class QueryReq {
             this.errMsg = "消費者身分證"+RegexpUtils.C_INVALID_ENUM_LEN;
             return false;
         }
-        if(!RegexpUtils.FULLY_DATE.matcher(startDate).matches()){
-            this.errMsg = "開始時間"+RegexpUtils.C_INVALID_DATE;
-            return false;
-        }
-        if(!RegexpUtils.FULLY_DATE.matcher(endDate).matches()){
-            this.errMsg = "結束時間"+RegexpUtils.C_INVALID_DATE;
+        if(!RegexpUtils.NUM_20.matcher(cardNum).matches()){
+            this.errMsg = "信用卡號"+RegexpUtils.C_INVALID_NUM_LEN;
             return false;
         }
 

@@ -3,14 +3,12 @@ package com.ntou.db.billrecord;
 import com.ntou.db.ConnControl;
 import com.ntou.svc.insert.InsertReq;
 import com.ntou.svc.modify.ModifyReq;
-import com.ntou.svc.query.QueryReq;
 import com.ntou.tool.Common;
 import lombok.extern.log4j.Log4j2;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
 
 @Log4j2
 public class BillrecordDAO extends ConnControl {
@@ -30,15 +28,6 @@ public class BillrecordDAO extends ConnControl {
     final private String COL_ISSUING_BANK       = "ISSUING_BANK";//VARCHAR(50),--發卡銀行(swiftCode)
     final private String COL_CARD_NUM           = "CARD_NUM";//VARCHAR(20),--卡號
     final private String COL_SECURITY_CODE      = "SECURITY_CODE";//VARCHAR(10) --安全碼
-
-    public static void main(String[] args) {
-        BillrecordDAO c = new BillrecordDAO();
-        QueryReq vo = new QueryReq();
-        vo.setCid("A123456789");
-        vo.setStartDate("2024/03/05 00:00:00");
-        vo.setEndDate("2024/03/12 23:59:59");
-        System.out.println(c.selectCusDateBill(vo));
-    }
 
     public int insertCusDateBill(InsertReq insertReq) throws Exception{
         log.info(Common.ARROW + "insertCusDateBill" + Common.START_B);
@@ -95,60 +84,60 @@ public class BillrecordDAO extends ConnControl {
         return result;
     }
 
-    public ArrayList<BillrecordVO> selectCusDateBill(QueryReq queryReq) {
-        log.info(Common.ARROW + "selectCusDateBill" + Common.START_B);
-        log.info(Common.VO + queryReq);
-        Connection conn = getConnection();
-        String SQL = String.format("select * from %s where %s=? and %s between ? and ? order by %s desc"
-                , TABLE_BILLRECORD
-                , COL_CUSTOMER_ID
-                , COL_BUY_DATE
-                , COL_BUY_DATE
-        );
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        ArrayList<BillrecordVO> out = new ArrayList<>();
-        int i = 0;
-        int j = 0;
-        try {
-            log.info(Common.SQL + SQL);
-            pstmt = conn.prepareStatement(SQL);
-            pstmt.setString(++i, queryReq.getCid());
-            pstmt.setString(++i, queryReq.getStartDate());
-            pstmt.setString(++i, queryReq.getEndDate());
-
-            rs = pstmt.executeQuery();
-            while (rs.next()) {
-                out.add(new BillrecordVO(
-                        BillrecordVO.encodeFormSQL(rs.getString(++j).trim())
-                        , BillrecordVO.encodeFormSQL(rs.getString(++j).trim())
-                        , BillrecordVO.encodeFormSQL(rs.getString(++j).trim())
-                        , BillrecordVO.encodeFormSQL(rs.getString(++j).trim())
-                        , BillrecordVO.encodeFormSQL(rs.getString(++j).trim())
-                        , BillrecordVO.encodeFormSQL(rs.getString(++j).trim())
-                        , BillrecordVO.encodeFormSQL(rs.getString(++j).trim())
-                        , BillrecordVO.encodeFormSQL(rs.getString(++j).trim())
-                        , BillrecordVO.encodeFormSQL(rs.getString(++j).trim())
-                        , BillrecordVO.encodeFormSQL(rs.getString(++j).trim())
-                        , BillrecordVO.encodeFormSQL(rs.getString(++j).trim())
-                        , BillrecordVO.encodeFormSQL(rs.getString(++j).trim())
-                        , BillrecordVO.encodeFormSQL(rs.getString(++j).trim())
-                        , BillrecordVO.encodeFormSQL(rs.getString(++j).trim())
-                        , BillrecordVO.encodeFormSQL(rs.getString(++j).trim())
-                ));
-                j = 0;
-            }
-            pstmt.clearParameters();
-            log.info(Common.RESULT + out);
-        } catch (Exception e) {
-            log.error(Common.EXCEPTION, e);
-        } finally {
-            closePS(pstmt);
-            closeRS(rs);
-            log.info(Common.ARROW + "selectCusDateBill" + Common.END_B);
-        }
-        return out;
-    }
+//    public ArrayList<BillrecordVO> selectCusDateBill(QueryReq queryReq) {
+//        log.info(Common.ARROW + "selectCusDateBill" + Common.START_B);
+//        log.info(Common.VO + queryReq);
+//        Connection conn = getConnection();
+//        String SQL = String.format("select * from %s where %s=? and %s between ? and ? order by %s desc"
+//                , TABLE_BILLRECORD
+//                , COL_CUSTOMER_ID
+//                , COL_BUY_DATE
+//                , COL_BUY_DATE
+//        );
+//        PreparedStatement pstmt = null;
+//        ResultSet rs = null;
+//        ArrayList<BillrecordVO> out = new ArrayList<>();
+//        int i = 0;
+//        int j = 0;
+//        try {
+//            log.info(Common.SQL + SQL);
+//            pstmt = conn.prepareStatement(SQL);
+//            pstmt.setString(++i, queryReq.getCid());
+//            pstmt.setString(++i, queryReq.getStartDate());
+//            pstmt.setString(++i, queryReq.getEndDate());
+//
+//            rs = pstmt.executeQuery();
+//            while (rs.next()) {
+//                out.add(new BillrecordVO(
+//                        BillrecordVO.encodeFormSQL(rs.getString(++j).trim())
+//                        , BillrecordVO.encodeFormSQL(rs.getString(++j).trim())
+//                        , BillrecordVO.encodeFormSQL(rs.getString(++j).trim())
+//                        , BillrecordVO.encodeFormSQL(rs.getString(++j).trim())
+//                        , BillrecordVO.encodeFormSQL(rs.getString(++j).trim())
+//                        , BillrecordVO.encodeFormSQL(rs.getString(++j).trim())
+//                        , BillrecordVO.encodeFormSQL(rs.getString(++j).trim())
+//                        , BillrecordVO.encodeFormSQL(rs.getString(++j).trim())
+//                        , BillrecordVO.encodeFormSQL(rs.getString(++j).trim())
+//                        , BillrecordVO.encodeFormSQL(rs.getString(++j).trim())
+//                        , BillrecordVO.encodeFormSQL(rs.getString(++j).trim())
+//                        , BillrecordVO.encodeFormSQL(rs.getString(++j).trim())
+//                        , BillrecordVO.encodeFormSQL(rs.getString(++j).trim())
+//                        , BillrecordVO.encodeFormSQL(rs.getString(++j).trim())
+//                        , BillrecordVO.encodeFormSQL(rs.getString(++j).trim())
+//                ));
+//                j = 0;
+//            }
+//            pstmt.clearParameters();
+//            log.info(Common.RESULT + out);
+//        } catch (Exception e) {
+//            log.error(Common.EXCEPTION, e);
+//        } finally {
+//            closePS(pstmt);
+//            closeRS(rs);
+//            log.info(Common.ARROW + "selectCusDateBill" + Common.END_B);
+//        }
+//        return out;
+//    }
     public int updateFlagCusDateBill(ModifyReq req){
         log.info(Common.ARROW + "updateFlagCusDateBill" + Common.START_B);
         log.info(Common.VO + req);
